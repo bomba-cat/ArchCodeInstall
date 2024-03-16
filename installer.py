@@ -239,7 +239,7 @@ def Installing():
         widget.destroy()
     tk.Label(installer, text="Installing commands", font=("Courier New", 20)).place(relx=0.5, rely=0.6, anchor="center")
     for i in commands:
-        linux.system(i.replace("USER", user.get()).replace("PASSWORD", passw.get()).replace("HOST", hostname.get()).replace("DRIVE", drive.get()).replace("TIMEZONE", timezone.get()).replace("KERNEL", kernel.get()))
+        linux.system(i.replace("USER", user).replace("PASSWORD", passw.get()).replace("HOST", hostname.get()).replace("DRIVE", drive.get()).replace("TIMEZONE", timezone.get()).replace("KERNEL", kernel.get()))
 
     #Label saying installing basepackages
     for widget in installer.winfo_children():               #Clear all widgets
