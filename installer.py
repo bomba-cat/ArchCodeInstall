@@ -31,20 +31,20 @@ commands = [
 
     "mkdir /mnt/boot",
     #Setup partitions for arch linux: EFI, SWAP and ROOT using ext4 fs
-    f"parted {drive} mklabel gpt",
-    f"parted {drive} mkpart primary fat32 1MiB 300MiB",
-    f"parted {drive} set 1 boot on",
-    f"parted {drive} mkpart primary linux-swap 300MiB 4GiB",
-    f"parted {drive} mkpart primary ext4 4GiB 100%",
+    f"parted /dev/{drive} mklabel gpt",
+    f"parted /dev/{drive} mkpart primary fat32 1MiB 300MiB",
+    f"parted /dev/{drive} set 1 boot on",
+    f"parted /dev/{drive} mkpart primary linux-swap 300MiB 4GiB",
+    f"parted /dev/{drive} mkpart primary ext4 4GiB 100%",
 
     #Format partitions
-    f"mkfs.fat -F32 {drive}1",
-    f"mkswap {drive}2",
-    f"swapon {drive}2",
-    f"mkfs.ext4 {drive}3,"
-    f"mount {drive}3 /mnt",
+    f"mkfs.fat -F32 /dev/{drive}1",
+    f"mkswap /dev/{drive}2",
+    f"swapon /dev/{drive}2",
+    f"mkfs.ext4 /dev/{drive}3,"
+    f"mount /dev/{drive}3 /mnt",
     "mkdir /mnt/boot",
-    f"mount {drive}1 /mnt/boot",
+    f"mount /dev/{drive}1 /mnt/boot",
 
     #Pacstrap
     "pacstrap -K /mnt base linux linux-firmware",
@@ -210,12 +210,10 @@ def setdrive():
     drive = drivevar.get()
     if "nvme" in drive:
         drive = f"{drive}p"
-    driveclean = drive
-    drive = f"/dev/{drive}"
     GetLocales()
 
 def Installing():
-    global commands, packages, postcommands, postpackages, user, passw, sudo, hostname, drive, timezone, kernel, driveclean
+    global commands, packages, postcommands, postpackages, user, passw, sudo, hostname, drive, timezone, kernel
     #Label saying installing
     tk.Label(installer, text="Installing", font=("Courier New", 20)).place(relx=0.5, rely=0.5, anchor="center")
 
