@@ -32,27 +32,27 @@ commands = (
     "timedatectl",
 
     #Print drive for debugging
-    f"echo chosen drive: {drive}",
-    f"read test"
+    "echo chosen drive: DRIVE",
+    "read test"
 
     "mkdir /mnt/boot",
     #Setup partitions for arch linux: EFI, SWAP and ROOT using ext4 fs
-    f"parted /dev/{drive} mklabel gpt",
-    f"parted /dev/{drive} mkpart primary fat32 1MiB 300MiB",
-    f"parted /dev/{drive} set 1 boot on",
-    f"parted /dev/{drive} mkpart primary linux-swap 300MiB 4GiB",
-    f"parted /dev/{drive} mkpart primary ext4 4GiB 100%",
+    "parted /dev/DRIVE mklabel gpt",
+    "parted /dev/DRIVE mkpart primary fat32 1MiB 300MiB",
+    "parted /dev/DRIVE set 1 boot on",
+    "parted /dev/DRIVE mkpart primary linux-swap 300MiB 4GiB",
+    "parted /dev/DRIVE mkpart primary ext4 4GiB 100%",
 
-    f"read test"
+    "read test"
 
     #Format partitions
-    f"mkfs.fat -F32 /dev/{drive}1",
-    f"mkswap /dev/{drive}2",
-    f"swapon /dev/{drive}2",
-    f"mkfs.ext4 /dev/{drive}3,"
-    f"mount /dev/{drive}3 /mnt",
+    "mkfs.fat -F32 /dev/DRIVE1",
+    "mkswap /dev/DRIVE2",
+    "swapon /dev/DRIVE2",
+    "mkfs.ext4 /dev/DRIVE3,"
+    "mount /dev/DRIVE3 /mnt",
     "mkdir /mnt/boot",
-    f"mount /dev/{drive}1 /mnt/boot",
+    "mount /dev/DRIVE1 /mnt/boot",
 
     #Pacstrap
     "pacstrap -K /mnt base linux linux-firmware",
@@ -62,7 +62,7 @@ commands = (
     "arch-chroot /mnt",
 
     #Set timezone
-    f"ln -sf /usr/share/zoneinfo/{timezone} /etc/localtime",
+    "ln -sf /usr/share/zoneinfo/TIMEZONE /etc/localtime",
     "hwclock --systohc",
 
     #Set locales
@@ -72,16 +72,16 @@ commands = (
     "locale-gen",
 
     #Set hostname
-    f"echo '{hostname}' > /etc/hostname",
+    "echo 'HOST' > /etc/hostname",
 
     #Set passwd for root
-    f"echo 'root:{passw}' | chpasswd",
+    "echo 'root:PASSWORD' | chpasswd",
 
     #Set user
-    f"useradd -m {user}",
-    f"echo '{user}:{passw}' | chpasswd",
-    f"usermod -aG wheel {user}",
-    f"echo '{user} ALL=(ALL:ALL) ALL' >> /etc/sudoers",
+    "useradd -m USER",
+    "echo 'USER:PASSWORD' | chpasswd",
+    "usermod -aG wheel USER",
+    "echo 'USER ALL=(ALL:ALL) ALL' >> /etc/sudoers",
 
     #Install grub and efibootmgr
     "pacman -Sy grub efibootmgr --noconfirm",
@@ -239,7 +239,7 @@ def Installing():
         widget.destroy()
     tk.Label(installer, text="Installing commands", font=("Courier New", 20)).place(relx=0.5, rely=0.6, anchor="center")
     for i in commands:
-        linux.system(i)
+        linux.system(i.replace("USER", user).replace("PASSWORD", passw).replace("HOST", hostname).replace("DRIVE", drive).replace("TIMEZONE", timezone).replace("KERNEL", kernel))
 
     #Label saying installing basepackages
     for widget in installer.winfo_children():               #Clear all widgets
