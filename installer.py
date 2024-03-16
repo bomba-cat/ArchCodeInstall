@@ -28,7 +28,7 @@ packages = [
     "parted"
 ]
 
-commands = [
+commands = (
     "timedatectl",
 
     #Print drive for debugging
@@ -89,7 +89,7 @@ commands = [
     #Bootloader
     "grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB",
     "grub-mkconfig -o /boot/grub/grub.cfg"
-]
+)
 
 postpackages = [
     #Environment stuff
