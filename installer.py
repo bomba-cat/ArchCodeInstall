@@ -4,12 +4,6 @@ from tkinter import ttk as tk
 from ttkthemes import ThemedTk
 import os as linux
 
-#Check if user is root
-root = linux.popen("whoami").read()
-if root != "root\b":
-    print("Please run as root")
-    exit()
-
 #GET FREE SPACE FOR INSTALLATION
 linux.system("mount -o remount,size=8G /run/archiso/cowspace")
 
@@ -25,8 +19,7 @@ hostname = ""
 kernel = ""
 
 drivevar = ntk.StringVar(installer, "")
-drive = drivevar.get()
-driveclean = drivevar.get()
+drive = ""
 
 timezone = ""
 
@@ -170,7 +163,6 @@ def GetUserPass():
         widget.destroy()
     user = ntk.StringVar()
     passw = ntk.StringVar()
-
     tk.Label(installer, text="Set Hostname", font=("Courier New", 40)).place(relx=0.5, rely=0.1, anchor="center")
     tk.Entry(installer, textvariable=hostname, font=("Courier New", 20)).place(relx=0.5, rely=0.2, anchor="center")
 
@@ -225,6 +217,9 @@ def setdrive():
     drive = drivevar.get()
     if "nvme" in drive:
         drive = f"{drive}p"
+        print(drive)
+    else:
+        print(drive)
     GetLocales()
 
 def Installing():
