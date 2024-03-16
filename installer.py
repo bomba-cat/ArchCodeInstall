@@ -39,7 +39,7 @@ commands = [
     "timedatectl",
 
     #Print drive for debugging
-    f"echo {drive}",
+    f"echo chosen drive: {drive}",
     f"read test"
 
     "mkdir /mnt/boot",
@@ -196,7 +196,7 @@ def GetKernel():
     tk.Label(installer, text="Linux Zen - Hacker tested kernel", font=("Courier New", 10)).place(relx=0.5, rely=0.8, anchor="center")
 
 def GetDrives(chosenKernel):
-    global kernel, drive
+    global kernel, drive, drivevar
     kernel = chosenKernel
     drives = linux.popen("lsblk --nodeps --output NAME | grep -v 'NAME'").read()
     for widget in installer.winfo_children():               #Clear all widgets
