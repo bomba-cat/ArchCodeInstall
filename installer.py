@@ -28,22 +28,19 @@ packages = [
     "parted"
 ]
 
-commands = (
+commands = [
     "timedatectl",
 
     #Print drive for debugging
     "echo chosen drive: DRIVE",
-    "read test"
 
     "mkdir /mnt/boot",
     #Setup partitions for arch linux: EFI, SWAP and ROOT using ext4 fs
     "parted /dev/DRIVE mklabel gpt",
-    "parted /dev/DRIVE mkpart primary fat32 1MiB 300MiB",
+    "parted /dev/DRIVE mkpart primary fat32 0MiB 300MiB",
     "parted /dev/DRIVE set 1 boot on",
-    "parted /dev/DRIVE mkpart primary linux-swap 300MiB 4GiB",
-    "parted /dev/DRIVE mkpart primary ext4 4GiB 100%",
-
-    "read test"
+    "parted /dev/DRIVE mkpart primary linux-swap 300MiB 5GiB",
+    "parted /dev/DRIVE mkpart primary ext4 5GiB 100%",
 
     #Format partitions
     "mkfs.fat -F32 /dev/DRIVE1",
@@ -89,7 +86,7 @@ commands = (
     #Bootloader
     "grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB",
     "grub-mkconfig -o /boot/grub/grub.cfg"
-)
+]
 
 postpackages = [
     #Environment stuff
