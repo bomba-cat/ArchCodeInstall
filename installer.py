@@ -31,20 +31,20 @@ commands = [
 
     "mkdir /mnt/boot",
     #Setup partitions for arch linux: EFI, SWAP and ROOT using ext4 fs
-    f"parted /dev/{drive} mklabel gpt",
-    f"parted /dev/{drive} mkpart primary fat32 1MiB 300MiB",
-    f"parted /dev/{drive} set 1 boot on",
-    f"parted /dev/{drive} mkpart primary linux-swap 300MiB 4GiB",
-    f"parted /dev/{drive} mkpart primary ext4 4GiB 100%",
+    rf"parted /dev/{drive} mklabel gpt",
+    rf"parted /dev/{drive} mkpart primary fat32 1MiB 300MiB",
+    rf"parted /dev/{drive} set 1 boot on",
+    rf"parted /dev/{drive} mkpart primary linux-swap 300MiB 4GiB",
+    rf"parted /dev/{drive} mkpart primary ext4 4GiB 100%",
 
     #Format partitions
-    f"mkfs.fat -F32 /dev/{drive}1",
-    f"mkswap /dev/{drive}2",
-    f"swapon /dev/{drive}2",
-    f"mkfs.ext4 /dev/{drive}3,"
-    f"mount /dev/{drive}3 /mnt",
+    rf"mkfs.fat -F32 /dev/{drive}1",
+    rf"mkswap /dev/{drive}2",
+    rf"swapon /dev/{drive}2",
+    rf"mkfs.ext4 /dev/{drive}3,"
+    rf"mount /dev/{drive}3 /mnt",
     "mkdir /mnt/boot",
-    f"mount /dev/{drive}1 /mnt/boot",
+    rf"mount /dev/{drive}1 /mnt/boot",
 
     #Pacstrap
     "pacstrap -K /mnt base linux linux-firmware",
@@ -64,16 +64,16 @@ commands = [
     "locale-gen",
 
     #Set hostname
-    f"echo '{hostname}' > /etc/hostname",
+    rf"echo '{hostname}' > /etc/hostname",
 
     #Set passwd for root
-    f"echo 'root:{passw}' | chpasswd",
+    rf"echo 'root:{passw}' | chpasswd",
 
     #Set user
-    f"useradd -m {user}",
-    f"echo '{user}:{passw}' | chpasswd",
-    f"usermod -aG wheel {user}",
-    f"echo '{user} ALL=(ALL:ALL) ALL' >> /etc/sudoers",
+    rf"useradd -m {user}",
+    rf"echo '{user}:{passw}' | chpasswd",
+    rf"usermod -aG wheel {user}",
+    rf"echo '{user} ALL=(ALL:ALL) ALL' >> /etc/sudoers",
 
     #Install grub and efibootmgr
     "pacman -Sy grub efibootmgr --noconfirm",
