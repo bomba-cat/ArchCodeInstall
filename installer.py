@@ -4,6 +4,15 @@ from tkinter import ttk as tk
 from ttkthemes import ThemedTk
 import os as linux
 
+#Check if user is root
+root = linux.popen("whoami").read()
+if root != "root\b":
+    print("Please run as root")
+    exit()
+
+#GET FREE SPACE FOR INSTALLATION
+linux.system("mount -o remount,size=8G /run/archiso/cowspace")
+
 #Create window class
 installer = ThemedTk(theme="breeze")
 
@@ -29,22 +38,28 @@ packages = [
 commands = [
     "timedatectl",
 
+    #Print drive for debugging
+    f"echo {drive}",
+    f"read test"
+
     "mkdir /mnt/boot",
     #Setup partitions for arch linux: EFI, SWAP and ROOT using ext4 fs
-    rf"parted /dev/{drive} mklabel gpt",
-    rf"parted /dev/{drive} mkpart primary fat32 1MiB 300MiB",
-    rf"parted /dev/{drive} set 1 boot on",
-    rf"parted /dev/{drive} mkpart primary linux-swap 300MiB 4GiB",
-    rf"parted /dev/{drive} mkpart primary ext4 4GiB 100%",
+    f"parted /dev/{drive} mklabel gpt",
+    f"parted /dev/{drive} mkpart primary fat32 1MiB 300MiB",
+    f"parted /dev/{drive} set 1 boot on",
+    f"parted /dev/{drive} mkpart primary linux-swap 300MiB 4GiB",
+    f"parted /dev/{drive} mkpart primary ext4 4GiB 100%",
+
+    f"read test"
 
     #Format partitions
-    rf"mkfs.fat -F32 /dev/{drive}1",
-    rf"mkswap /dev/{drive}2",
-    rf"swapon /dev/{drive}2",
-    rf"mkfs.ext4 /dev/{drive}3,"
-    rf"mount /dev/{drive}3 /mnt",
+    f"mkfs.fat -F32 /dev/{drive}1",
+    f"mkswap /dev/{drive}2",
+    f"swapon /dev/{drive}2",
+    f"mkfs.ext4 /dev/{drive}3,"
+    f"mount /dev/{drive}3 /mnt",
     "mkdir /mnt/boot",
-    rf"mount /dev/{drive}1 /mnt/boot",
+    f"mount /dev/{drive}1 /mnt/boot",
 
     #Pacstrap
     "pacstrap -K /mnt base linux linux-firmware",
@@ -64,16 +79,16 @@ commands = [
     "locale-gen",
 
     #Set hostname
-    rf"echo '{hostname}' > /etc/hostname",
+    f"echo '{hostname}' > /etc/hostname",
 
     #Set passwd for root
-    rf"echo 'root:{passw}' | chpasswd",
+    f"echo 'root:{passw}' | chpasswd",
 
     #Set user
-    rf"useradd -m {user}",
-    rf"echo '{user}:{passw}' | chpasswd",
-    rf"usermod -aG wheel {user}",
-    rf"echo '{user} ALL=(ALL:ALL) ALL' >> /etc/sudoers",
+    f"useradd -m {user}",
+    f"echo '{user}:{passw}' | chpasswd",
+    f"usermod -aG wheel {user}",
+    f"echo '{user} ALL=(ALL:ALL) ALL' >> /etc/sudoers",
 
     #Install grub and efibootmgr
     "pacman -Sy grub efibootmgr --noconfirm",
