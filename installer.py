@@ -25,7 +25,8 @@ timezone = ""
 
 #Commands
 packages = [
-    "parted"
+    "parted",
+    "wipefs"
 ]
 
 commands = [
@@ -35,12 +36,17 @@ commands = [
     "echo chosen drive: DRIVE",
 
     "mkdir /mnt/boot",
+
+    #Wipe drive
+    "wipefs -a DRIVE",
+
     #Setup partitions for arch linux: EFI, SWAP and ROOT using ext4 fs
-    "parted /dev/DRIVE mklabel gpt",
-    "parted /dev/DRIVE mkpart primary fat32 0MiB 300MiB",
-    "parted /dev/DRIVE set 1 boot on",
-    "parted /dev/DRIVE mkpart primary linux-swap 300MiB 5GiB",
-    "parted /dev/DRIVE mkpart primary ext4 5GiB 100%",
+    "parted -s /dev/DRIVE mklabel gpt",
+    'parted -s /dev/DRIVE mkpart "EFI system partition" fat32 1MiB 301MiB',
+    "parted -s /dev/DRIVE set 1 esp on",
+    'parted -s /dev/DRIVE mkpart "ROOT partition" ext4 301MiB 20.5GiB',
+    'parted -s /dev/DRIVE mkpart "SWAP partition" linux-swap 20.5GiB 24.5GiB',
+    'parted -s /dev/DRIVE mkpart "HOME partition" ext4 24.5GiB 100%',
 
     #Format partitions
     "mkfs.fat -F32 /dev/DRIVE1",
