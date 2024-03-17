@@ -59,33 +59,33 @@ commands = [
     "arch-chroot /mnt",
 
     #Set timezone
-    "ln -sf /usr/share/zoneinfo/TIMEZONE /etc/localtime",
-    "hwclock --systohc",
+    "arch-chroot /mnt ln -sf /usr/share/zoneinfo/TIMEZONE /etc/localtime",
+    "arch-chroot /mnt hwclock --systohc",
 
     #Set locales
 
-    "echo 'LANG=en_US.UTF-8' > /etc/locale.conf",
-    "echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen",
-    "locale-gen",
+    "arch-chroot /mnt echo 'LANG=en_US.UTF-8' > /etc/locale.conf",
+    "arch-chroot /mnt echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen",
+    "arch-chroot /mnt locale-gen",
 
     #Set hostname
-    "echo 'HOST' > /etc/hostname",
+    "arch-chroot /mnt echo 'HOST' > /etc/hostname",
 
     #Set passwd for root
-    "echo 'root:PASSWORD' | chpasswd",
+    "arch-chroot /mnt echo 'root:PASSWORD' | chpasswd",
 
     #Set user
-    "useradd -m USER",
-    "echo 'USER:PASSWORD' | chpasswd",
-    "usermod -aG wheel USER",
-    "echo 'USER ALL=(ALL:ALL) ALL' >> /etc/sudoers",
+    "arch-chroot /mnt useradd -m USER",
+    "arch-chroot /mnt echo 'USER:PASSWORD' | chpasswd",
+    "arch-chroot /mnt usermod -aG wheel USER",
+    "arch-chroot /mnt echo 'USER ALL=(ALL:ALL) ALL' >> /etc/sudoers",
 
     #Install grub and efibootmgr
-    "pacman -Sy grub efibootmgr --noconfirm",
+    "arch-chroot /mnt pacman -Sy grub efibootmgr --noconfirm",
 
     #Bootloader
-    "grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB",
-    "grub-mkconfig -o /boot/grub/grub.cfg"
+    "arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB",
+    "arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg"
 ]
 
 postpackages = [
