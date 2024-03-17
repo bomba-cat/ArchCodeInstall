@@ -38,7 +38,7 @@ commands = [
     "mkdir /mnt/boot",
 
     #Wipe drive
-    "wipefs -a DRIVE",
+    "wipefs -a /dev/DRIVE",
 
     #Setup partitions for arch linux: EFI, SWAP and ROOT using ext4 fs
     "parted -s /dev/DRIVE mklabel gpt",
