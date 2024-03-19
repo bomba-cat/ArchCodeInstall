@@ -143,10 +143,15 @@ if args.tty == True:
     #user, passw, sudo, hostname, drive, timezone, kernel
 
     user = input("Set a username: ")
+    linux.system("clear")
     passw = input("Set a password: ")
+    linux.system("clear")
+    passw = input("Set a password: ")
+    linux.system("clear")
     hostname = input("Set a hostname: ")
+    linux.system("clear")
     print(linux.popen("lsblk").read())
-    drive = input("Choose a drive(without /dev/): ")
+    drive = input("Choose a drive: /dev/ ")
     timezone = input("Choose a timezone: ")
     kernel = input("1: Linux, 2: Linux-LTS, 3: Linux-zen\nChoose a kernel: ")
     if kernel == "1":
