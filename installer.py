@@ -3,25 +3,10 @@ import tkinter as ntk
 from tkinter import ttk as tk
 from ttkthemes import ThemedTk
 import os as linux
+import argpars
 
 #GET FREE SPACE FOR INSTALLATION
 linux.system("mount -o remount,size=8G /run/archiso/cowspace")
-
-#Create window class
-installer = ThemedTk(theme="breeze")
-
-#Variables
-user = ""
-passw = ""
-sudo = False
-hostname = ""
-
-kernel = ""
-
-drivevar = ntk.StringVar(installer, "")
-drive = ""
-
-timezone = ""
 
 #Commands
 packages = [
@@ -119,7 +104,6 @@ postpackages = [
     "nodejs-npm",
     "cargo",
     "mariadb",
-    "mysql",
     "curl",
     "git",
 
@@ -148,6 +132,50 @@ postcommands = [
     "cd ..",
     "rm -rf yay"
 ]
+
+parser = argparse.ArgumentParser(description='TTY Mode')
+parser.add_argument('-t', '--tty',
+                    action='store_true',
+                    help='CLI Mode Flag')
+args = parser.parse_args()
+
+if args.w == True:
+    for i in packages:
+        linux.system(f"pacman -Sy {i} --noconfirm")
+
+    for i in commands:
+        input(f"Following command will be executed: '{i}'\nPress enter to continue")
+        linux.system(i.replace("USER", user.get()).replace("PASSWORD", passw.get()).replace("HOST", hostname).replace("DRIVE", drive).replace("TIMEZONE", timezone).replace("KERNEL", kernel))
+
+    linux.system("pacman -Syu")
+    for i in basepackages:
+        linux.system(f"pacman -S {i} --noconfirm")
+
+    for i in postpackages:
+        linux.system(f"pacman -S {i} --noconfirm")
+
+    for i in postcommands:
+        linux.system(i)
+
+    print('CLI Mode W.I.P')
+    exit()
+
+#Create window class
+installer = ThemedTk(theme="breeze")
+
+#Variables
+user = ""
+passw = ""
+sudo = False
+hostname = ""
+
+kernel = ""
+
+drivevar = ntk.StringVar(installer, "")
+drive = ""
+
+timezone = ""
+
 
 def sudoCheck():
     global sudo
