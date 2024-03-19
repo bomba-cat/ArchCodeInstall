@@ -136,10 +136,26 @@ postcommands = [
 parser = argparse.ArgumentParser(description='TTY Mode')
 parser.add_argument('-t', '--tty',
                     action='store_true',
-                    help='CLI Mode Flag')
+                    help='TTY Mode Flag')
 args = parser.parse_args()
 
-if args.w == True:
+if args.t == True:
+    #user, passw, sudo, hostname, drive, timezone, kernel
+
+    user = input("Set a username: ")
+    passw = input("Set a password: ")
+    hostname = input("Set a hostname: ")
+    print(linux.popen("lsblk").read())
+    drive = input("Choose a drive(without /dev/): ")
+    timezone = input("Choose a timezone: ")
+    kernel = input("1: Linux, 2: Linux-LTS, 3: Linux-zen\nChoose a kernel: ")
+    if kernel == "1":
+        kernel = "linux"
+    elif kernel == "2":
+        kernel = "linux-lts"
+    else:
+        kernel = "linux-zen"
+
     for i in packages:
         linux.system(f"pacman -Sy {i} --noconfirm")
 
@@ -157,7 +173,7 @@ if args.w == True:
     for i in postcommands:
         linux.system(i)
 
-    print('CLI Mode W.I.P')
+    print('TTY Mode W.I.P')
     exit()
 
 #Create window class
