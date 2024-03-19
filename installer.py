@@ -3,7 +3,7 @@ import tkinter as ntk
 from tkinter import ttk as tk
 from ttkthemes import ThemedTk
 import os as linux
-import argpars
+import argparse
 
 #GET FREE SPACE FOR INSTALLATION
 linux.system("mount -o remount,size=8G /run/archiso/cowspace")
