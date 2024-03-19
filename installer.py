@@ -139,7 +139,7 @@ parser.add_argument('-t', '--tty',
                     help='TTY Mode Flag')
 args = parser.parse_args()
 
-if args.t == True:
+if args.tty == True:
     #user, passw, sudo, hostname, drive, timezone, kernel
 
     user = input("Set a username: ")
