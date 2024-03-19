@@ -61,9 +61,6 @@ commands = [
     "pacstrap -K /mnt base linux linux-firmware",
     "genfstab -U /mnt >> /mnt/etc/fstab",
 
-    #Chroot
-    "arch-chroot /mnt",
-
     #Set timezone
     "arch-chroot /mnt ln -sf /usr/share/zoneinfo/TIMEZONE /etc/localtime",
     "arch-chroot /mnt hwclock --systohc",
