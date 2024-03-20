@@ -51,7 +51,6 @@ commands = [
     "arch-chroot /mnt hwclock --systohc",
 
     #Set locales
-
     "arch-chroot /mnt echo 'LANG=en_US.UTF-8' > /etc/locale.conf",
     "arch-chroot /mnt echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen",
     "arch-chroot /mnt locale-gen",
@@ -187,7 +186,6 @@ if args.tty == True:
     for i in postcommands:
         linux.system(i)
 
-    print('TTY Mode W.I.P')
     exit()
 
 #Create window class
