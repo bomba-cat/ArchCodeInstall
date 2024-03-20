@@ -139,19 +139,27 @@ parser.add_argument('-t', '--tty',
                     help='TTY Mode Flag')
 args = parser.parse_args()
 
+def TTYMode():
+    linux.system("clear")
+    print("--------------------------------------")
+    print("      ArchCodeInstall TTY Mode        ")
+    print("--------------------------------------")
+
 if args.tty == True:
     #user, passw, sudo, hostname, drive, timezone, kernel
 
-    linux.system("clear")
+    TTYMode()
     user = input("Set a username: ")
-    linux.system("clear")
+    TTYMode()
     passw = input("Set a password: ")
-    linux.system("clear")
+    TTYMode()
     hostname = input("Set a hostname: ")
-    linux.system("clear")
+    TTYMode()
     print(linux.popen("lsblk").read())
     drive = input("Choose a drive: /dev/")
+    TTYMode()
     timezone = input("Choose a timezone: ")
+    TTYMode()
     kernel = input("1: Linux, 2: Linux-LTS, 3: Linux-zen\nChoose a kernel: ")
     if kernel == "1":
         kernel = "linux"
@@ -160,6 +168,8 @@ if args.tty == True:
     else:
         kernel = "linux-zen"
 
+    TTYMode()
+    print("Starting installation...")
     for i in packages:
         linux.system(f"pacman -Sy {i} --noconfirm")
 
