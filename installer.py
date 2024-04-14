@@ -39,7 +39,7 @@ commands = [
     "mkfs.fat -F32 /dev/DRIVE1",
     "mkswap /dev/DRIVE2",
     "swapon /dev/DRIVE2",
-    "mkfs.ext4 /dev/DRIVE3,"
+    "mkfs.ext4 /dev/DRIVE3",
     "mount /dev/DRIVE3 /mnt/ArchCode",
     "mkdir /mnt/ArchCode/boot",
     "mount /dev/DRIVE1 /mnt/ArchCode/boot",
