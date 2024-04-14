@@ -297,7 +297,7 @@ def Installing():
         widget.destroy()
     tk.Label(installer, text="Installing commands", font=("Courier New", 20)).place(relx=0.5, rely=0.6, anchor="center")
     for i in commands:
-        input(f"Following command will be executed: '{i}'\nPress enter to continue")
+        input(f"------------------------------------------------\nFollowing command will be executed: '{i}'\n--------------------------------Press enter to continue")
         linux.system(i.replace("USER", user.get()).replace("PASSWORD", passw.get()).replace("HOST", hostname).replace("DRIVE", drive).replace("TIMEZONE", timezone).replace("KERNEL", kernel))
 
     #Label saying installing basepackages
