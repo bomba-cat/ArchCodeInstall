@@ -20,7 +20,7 @@ commands = [
     #Print drive for debugging
     "echo chosen drive: DRIVE",
 
-    "mkdir /mnt/ArchCode"
+    "mkdir /mnt/ArchCode",
 
     "mkdir /mnt/ArchCode/boot",
 
