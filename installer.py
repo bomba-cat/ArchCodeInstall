@@ -20,7 +20,9 @@ commands = [
     #Print drive for debugging
     "echo chosen drive: DRIVE",
 
-    "mkdir /mnt/boot",
+    "mkdir /mnt/ArchCode"
+
+    "mkdir /mnt/ArchCode/boot",
 
     #Wipe drive
     "wipefs -a /dev/DRIVE",
@@ -38,41 +40,41 @@ commands = [
     "mkswap /dev/DRIVE2",
     "swapon /dev/DRIVE2",
     "mkfs.ext4 /dev/DRIVE3,"
-    "mount /dev/DRIVE3 /mnt",
-    "mkdir /mnt/boot",
-    "mount /dev/DRIVE1 /mnt/boot",
+    "mount /dev/DRIVE3 /mnt/ArchCode",
+    "mkdir /mnt/ArchCode/boot",
+    "mount /dev/DRIVE1 /mnt/ArchCode/boot",
 
     #Pacstrap
-    "pacstrap -K /mnt base linux linux-firmware",
-    "genfstab -U /mnt >> /mnt/etc/fstab",
+    "pacstrap -K /mnt/ArchCode base linux linux-firmware",
+    "genfstab -U /mnt/ArchCode >> /mnt/ArchCode/etc/fstab",
 
     #Set timezone
-    "arch-chroot /mnt ln -sf /usr/share/zoneinfo/TIMEZONE /etc/localtime",
-    "arch-chroot /mnt hwclock --systohc",
+    "arch-chroot /mnt/ArchCode ln -sf /usr/share/zoneinfo/TIMEZONE /etc/localtime",
+    "arch-chroot /mnt/ArchCode hwclock --systohc",
 
     #Set locales
-    "arch-chroot /mnt echo 'LANG=en_US.UTF-8' > /etc/locale.conf",
-    "arch-chroot /mnt echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen",
-    "arch-chroot /mnt locale-gen",
+    "arch-chroot /mnt/ArchCode echo 'LANG=en_US.UTF-8' > /etc/locale.conf",
+    "arch-chroot /mnt/ArchCode echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen",
+    "arch-chroot /mnt/ArchCode locale-gen",
 
     #Set hostname
-    "arch-chroot /mnt echo 'HOST' > /etc/hostname",
+    "arch-chroot /mnt/ArchCode echo 'HOST' > /etc/hostname",
 
     #Set passwd for root
-    "arch-chroot /mnt echo 'root:PASSWORD' | chpasswd",
+    "arch-chroot /mnt/ArchCode echo 'root:PASSWORD' | chpasswd",
 
     #Set user
-    "arch-chroot /mnt useradd -m USER",
-    "arch-chroot /mnt echo 'USER:PASSWORD' | chpasswd",
-    "arch-chroot /mnt usermod -aG wheel USER",
-    "arch-chroot /mnt echo 'USER ALL=(ALL:ALL) ALL' >> /etc/sudoers",
+    "arch-chroot /mnt/ArchCode useradd -m USER",
+    "arch-chroot /mnt/ArchCode echo 'USER:PASSWORD' | chpasswd",
+    "arch-chroot /mnt/ArchCode usermod -aG wheel USER",
+    "arch-chroot /mnt/ArchCode echo 'USER ALL=(ALL:ALL) ALL' >> /etc/sudoers",
 
     #Install grub and efibootmgr
-    "arch-chroot /mnt pacman -Sy grub efibootmgr --noconfirm",
+    "arch-chroot /mnt/ArchCode pacman -Sy grub efibootmgr --noconfirm",
 
     #Bootloader
-    "arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB",
-    "arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg"
+    "arch-chroot /mnt/ArchCode grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB",
+    "arch-chroot /mnt/ArchCode grub-mkconfig -o /boot/grub/grub.cfg"
 ]
 
 postpackages = [
